@@ -5,15 +5,7 @@
    let title = "What to do";
 </script>
 
-<main>
-   <h1>EEllo {name}!</h1>
-   <p>
-      Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn
-      how to build Svelte apps.
-   </p>
-</main>
-<label>some text</label>
-<AddTodoItem {title} />
+<AddTodoItem />
 
 <style>
    main {
