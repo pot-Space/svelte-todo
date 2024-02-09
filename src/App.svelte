@@ -1,30 +1,44 @@
 <script>
+   import { onMount } from "svelte";
+   import { v4 as uuid } from "uuid";
    import AddTodoItem from "./components/AddTodoItem.svelte";
-   export let name;
+   import TodoItem from "./components/TodoItem.svelte";
+   import { getTodos } from "./utils/getTodos";
 
    let title = "What to do";
+
+   let items = [];
+
+   onMount(() => {
+      const get = async () => {
+         items = await getTodos();
+      };
+      get();
+   });
+
+   function handleAddClick(event) {
+      items = [
+         ...items,
+         {
+            id: uuid(),
+            text: event.detail,
+         },
+      ];
+   }
 </script>
 
-<AddTodoItem />
+<AddTodoItem on:add={handleAddClick} />
+{#each items as { id, text }, index (id)}
+   <div class="todo-item-container">
+      <TodoItem title={`${index + 1}. ${text}`} />
+   </div>
+{:else}
+   No items yet
+{/each}
 
 <style>
-   main {
-      text-align: center;
-      padding: 1em;
-      max-width: 240px;
-      margin: 0 auto;
-   }
-
-   h1 {
-      color: #ff3e00;
-      text-transform: uppercase;
-      font-size: 4em;
-      font-weight: 100;
-   }
-
-   @media (min-width: 640px) {
-      main {
-         max-width: none;
-      }
+   .todo-item-container {
+      margin: 4px auto;
+      max-width: 480px;
    }
 </style>

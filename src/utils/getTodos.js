@@ -1,9 +1,8 @@
 import { v4 as uuid } from 'uuid';
 
 export function getTodos() {
-   return new Promise((resolve, reject) => {
+   return new Promise((resolve) => {
       setTimeout(() => {
-         reject(new Error('error 500'))
          resolve([
             {
                id: uuid(),
