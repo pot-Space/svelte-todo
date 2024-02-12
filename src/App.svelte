@@ -4,9 +4,9 @@
    import AddTodoItem from "./components/AddTodoItem.svelte";
    import TodoItem from "./components/TodoItem.svelte";
    import { getTodos } from "./utils/getTodos";
+   import Examples from "./components/Examples.svelte";
 
    let title = "What to do";
-
    let items = [];
 
    onMount(() => {
@@ -22,19 +22,25 @@
          {
             id: uuid(),
             text: event.detail,
+            done: false,
          },
       ];
    }
 </script>
 
-<AddTodoItem on:add={handleAddClick} />
-{#each items as { id, text }, index (id)}
-   <div class="todo-item-container">
-      <TodoItem title={`${index + 1}. ${text}`} />
-   </div>
-{:else}
-   No items yet
-{/each}
+<Examples />
+
+<div class="todo-item-container">
+   <AddTodoItem on:add={handleAddClick} />
+
+   {items.filter((item) => item.done).length} / {items.length}
+
+   {#each items as { id, text, done }, index (id)}
+      <TodoItem title={`${index + 1}. ${text}`} bind:done />
+   {:else}
+      No items yet
+   {/each}
+</div>
 
 <style>
    .todo-item-container {

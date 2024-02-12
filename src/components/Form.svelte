@@ -1,23 +1,21 @@
 <script>
    import { createEventDispatcher } from "svelte";
+
    export let title = "Enter what do you want to do:"; // дефолтное значение пропса, если не проброшено другое
    export let btnTitle = "Add todo"; // дефолтное значение пропса, если не проброшено другое
 
    const dispatch = createEventDispatcher();
 
    let text = "";
+
    function handleAddClick() {
       dispatch("add", text);
-   }
-
-   function handleTextInput(event) {
-      text = event.target.value;
    }
 </script>
 
 <div class="main-container">
    <label for="todo-text">{title}</label>
-   <input class="todo-input" id="todo-text" on:input={handleTextInput} />
+   <input class="todo-input" id="todo-text" bind:value={text} />
    <button on:click={handleAddClick}>{btnTitle}</button>
 </div>
 

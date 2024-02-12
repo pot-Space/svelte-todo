@@ -1,16 +1,14 @@
 <script>
    export let title;
+   export let done;
 
-   function handleDoneChange() {
-      console.log("handleDoneChange");
-   }
    function handleRemoveClick() {
       console.log("handleRemoveClick");
    }
 </script>
 
 <div class="main-container">
-   <input type="checkbox" on:input={handleDoneChange} />
+   <input type="checkbox" bind:checked={done} />
    <p class="title">{title}</p>
    <button class="remove-btn" on:click={handleRemoveClick}>Remove</button>
 </div>
