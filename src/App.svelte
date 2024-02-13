@@ -1,50 +1,42 @@
 <script>
-   import { onMount } from "svelte";
-   import { v4 as uuid } from "uuid";
-   import AddTodoItem from "./components/AddTodoItem.svelte";
-   import TodoItem from "./components/TodoItem.svelte";
-   import { getTodos } from "./utils/getTodos";
-   import Examples from "./components/Examples.svelte";
+  import AddTodoItem from './components/AddTodoItem.svelte';
+  import TodoItem from './components/TodoItem.svelte';
+  import { todoItems } from './store/customStore';
+  import { todoStats } from './store/todoStats';
 
-   let title = "What to do";
-   let items = [];
+  function handleAddClick(event) {
+    todoItems.add(event.detail);
+  }
 
-   onMount(() => {
-      const get = async () => {
-         items = await getTodos();
-      };
-      get();
-   });
+  function handleDoneChange(id, done) {
+    todoItems.setDone(id, done);
+  }
 
-   function handleAddClick(event) {
-      items = [
-         ...items,
-         {
-            id: uuid(),
-            text: event.detail,
-            done: false,
-         },
-      ];
-   }
+  function handleRemove(id) {
+    todoItems.remove(id);
+  }
 </script>
 
-<Examples />
-
 <div class="todo-item-container">
-   <AddTodoItem on:add={handleAddClick} />
+  <AddTodoItem on:add={handleAddClick} />
 
-   {items.filter((item) => item.done).length} / {items.length}
+  {$todoStats.doneCount} / {$todoStats.totalCount}
 
-   {#each items as { id, text, done }, index (id)}
-      <TodoItem title={`${index + 1}. ${text}`} bind:done />
-   {:else}
-      No items yet
-   {/each}
+  {#each $todoItems as { id, text, done }, index (id)}
+    <TodoItem
+      title={`${index + 1}. ${text}`}
+      {done}
+      on:doneChange={(event) => handleDoneChange(id, event.detail)}
+      on:remove={() => handleRemove(id)}
+    />
+  {:else}
+    No items yet
+  {/each}
 </div>
 
 <style>
-   .todo-item-container {
-      margin: 4px auto;
-      max-width: 480px;
-   }
+  .todo-item-container {
+    margin: 4px auto;
+    max-width: 480px;
+  }
 </style>

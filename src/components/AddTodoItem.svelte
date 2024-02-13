@@ -1,5 +1,5 @@
 <script>
-   import Form from "./Form.svelte";
+   import Form from './Form.svelte';
 
    export let title;
    export let btnTitle;

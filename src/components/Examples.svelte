@@ -1,4 +1,4 @@
-<script>
+<!-- <script>
    import { onMount } from "svelte";
 
    // Examples: radio
@@ -22,12 +22,11 @@
    // let text = "A";
    // const items = ["A", "B", "C", "D", "E"];
 
-   let container;
-
-   onMount(() => {
-      container.innerHTML = "Hello";
-   });
-</script>
+   // let container;
+   // onMount(() => {
+   //    container.innerHTML = "Hello";
+   // });
+</script> -->
 
 <!-- <p>Choose correct one:</p>
 <div>
@@ -47,4 +46,4 @@ Reply: {reply} -->
 </select>
 Selected text: {text} -->
 
-<div bind:this={container}></div>
+<!-- <div bind:this={container}></div> -->
