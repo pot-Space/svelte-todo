@@ -1,37 +1,18 @@
 <script>
-  import { createEventDispatcher, onMount } from 'svelte';
-  import { tweened, spring } from 'svelte/motion';
+  import { createEventDispatcher } from 'svelte';
+  import { tweened } from 'svelte/motion';
   import { cubicIn } from 'svelte/easing';
   import { interpolateLab } from 'd3-interpolate';
 
-  export let done;
   export let title;
+  export let done;
   const dispatch = createEventDispatcher();
 
-  const doneMotion = tweened('#f5f5f5', {
+  const doneMotion = tweened(done ? '#7ee4d0' : '#ebebeb', {
     delay: 0,
     duration: 300,
     easing: cubicIn,
     interpolate: interpolateLab,
-  });
-
-  const containerPosition = spring(
-    {
-      left: -100,
-      top: -100,
-    },
-    {
-      stiffness: 0.1,
-      damping: 0.25,
-    },
-  );
-
-  let container;
-  onMount(() => {
-    containerPosition.set({
-      left: container.offsetLeft + 100,
-      top: container.offsetTop + 100,
-    });
   });
 
   function handleRemoveClick() {
@@ -39,42 +20,25 @@
   }
 
   function handleDoneChange(event) {
-    doneMotion.set(event.target.checked ? '#7ee4d0' : '#f5f5f5');
+    doneMotion.set(event.target.checked ? '#7ee4d0' : '#ebebeb');
     dispatch('doneChange', event.target.checked);
   }
 </script>
 
-<div class="main-container">
-  <label
-    class="inner-container"
-    style="
-      background-color: {$doneMotion};
-      left: {$containerPosition.left}px;
-      top: {$containerPosition.top}px;
-    "
-    bind:this={container}
-  >
-    <input checked={done} type="checkbox" on:input={handleDoneChange} />
-    <p class="title">{title}</p>
-    <button class="remove-btn" on:click={handleRemoveClick}>Remove</button>
-  </label>
+<div class="main-container" style="background-color: {$doneMotion}">
+  <input checked={done} type="checkbox" on:input={handleDoneChange} />
+  <p class="title">{title}</p>
+  <button class="remove-btn" on:click={handleRemoveClick}>Remove</button>
 </div>
 
 <style>
   .main-container {
-    position: relative;
     margin-top: 4px;
-    width: 100%;
-    height: 48px;
-  }
-  .inner-container {
-    position: absolute;
     padding: 0 16px;
     display: flex;
     align-items: center;
-    width: 100%;
-    height: 100%;
-    background-color: rgb(225 225 225 / 50%);
+    height: 48px;
+    background-color: #ebebeb;
     border-radius: 4px;
   }
 
