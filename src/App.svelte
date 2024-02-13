@@ -5,6 +5,7 @@
   import { todoStats } from './store/todoStats';
   import { crossfade } from 'svelte/transition';
   import { cubicIn } from 'svelte/easing';
+  import { flip } from 'svelte/animate';
 
   const [send, receive] = crossfade({
     duration: 500,
@@ -49,6 +50,7 @@
         class="todo-item-container"
         in:receive={{ key: id }}
         out:send={{ key: id }}
+        animate:flip={{ duration: 250 }}
       >
         <TodoItem
           title={`${index + 1}. ${text}`}
@@ -68,6 +70,7 @@
         class="todo-item-container"
         in:receive={{ key: id }}
         out:send={{ key: id }}
+        animate:flip={{ duration: 250 }}
       >
         <TodoItem
           title={`${index + 1}. ${text}`}
