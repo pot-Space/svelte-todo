@@ -1,8 +1,9 @@
 <script>
-  import { createEventDispatcher } from 'svelte';
+  import { createEventDispatcher, onMount } from 'svelte';
   import { tweened } from 'svelte/motion';
   import { cubicIn } from 'svelte/easing';
   import { interpolateLab } from 'd3-interpolate';
+  import { draggable } from '../actions/draggable';
 
   export let title;
   export let done;
@@ -23,9 +24,39 @@
     doneMotion.set(event.target.checked ? '#7ee4d0' : '#ebebeb');
     dispatch('doneChange', event.target.checked);
   }
+
+  let coord = { x: 0, y: 0 };
+
+  function handleDragStart() {}
+  function handleDragMove(event) {
+    coord = {
+      x: coord.x + event.detail.dx,
+      y: coord.y + event.detail.dy,
+    };
+  }
+  function handleDragEnd() {
+    coord = { x: 0, y: 0 };
+  }
+
+  let offset = 100;
+  onMount(() => {
+    setInterval(() => {
+      offset += 10;
+    }, 1000);
+  });
 </script>
 
-<div class="main-container" style="background-color: {$doneMotion}">
+<div
+  class="main-container"
+  style="
+    background-color: {$doneMotion};
+    transform: translate({coord.x}px, {coord.y}px);
+  "
+  use:draggable={{ offset }}
+  on:dragstart={handleDragStart}
+  on:dragmove={handleDragMove}
+  on:dragend={handleDragEnd}
+>
   <input checked={done} type="checkbox" on:input={handleDoneChange} />
   <p class="title">{title}</p>
   <button class="remove-btn" on:click={handleRemoveClick}>Remove</button>
@@ -40,6 +71,7 @@
     height: 48px;
     background-color: #ebebeb;
     border-radius: 4px;
+    user-select: none;
   }
 
   input {
