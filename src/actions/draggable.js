@@ -3,7 +3,6 @@ export function draggable(node, { offset }) {
   let _offset = offset;
   let x = 0;
   let y = 0;
-
   function handleMousedown(event) {
     x = event.clientX + _offset;
     y = event.clientY + _offset;
@@ -38,7 +37,6 @@ export function draggable(node, { offset }) {
   function handleMouseup(event) {
     x = event.clientX + _offset;
     y = event.clientY + _offset;
-
     node.dispatchEvent(new CustomEvent('dragend', {
       detail: {
         x,
@@ -56,9 +54,6 @@ export function draggable(node, { offset }) {
     destroy() {
       // on destroy
       node.removeEventListener('mousedown', handleMousedown);
-    },
-    update(offset) {
-      _offset = offset;
     }
   }
 }

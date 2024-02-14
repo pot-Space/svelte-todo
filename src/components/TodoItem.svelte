@@ -1,9 +1,26 @@
+<script context="module">
+  console.log('this is module');
+
+  let state = 5;
+</script>
+
 <script>
-  import { createEventDispatcher, onMount } from 'svelte';
+  import {
+    createEventDispatcher,
+    onMount,
+    getContext,
+    hasContext,
+  } from 'svelte';
   import { tweened } from 'svelte/motion';
   import { cubicIn } from 'svelte/easing';
   import { interpolateLab } from 'd3-interpolate';
   import { draggable } from '../actions/draggable';
+
+  const user = getContext('todo_user');
+  console.log('todo_user =>', hasContext('todo_user'));
+  console.log('todo_user123 =>', hasContext('todo_user123'));
+
+  console.log('state: ', state);
 
   export let title;
   export let done;
@@ -58,6 +75,7 @@
   on:dragend={handleDragEnd}
 >
   <input checked={done} type="checkbox" on:input={handleDoneChange} />
+  <p>{user.name}</p>
   <p class="title">{title}</p>
   <button class="remove-btn" on:click={handleRemoveClick}>Remove</button>
 </div>

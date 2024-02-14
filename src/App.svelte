@@ -1,11 +1,17 @@
 <script>
   import AddTodoItem from './components/AddTodoItem.svelte';
   import TodoItem from './components/TodoItem.svelte';
+  import BaseLayout from './layouts/BaseLayout.svelte';
   import { todoItems } from './store/customStore';
   import { todoStats } from './store/todoStats';
   import { crossfade } from 'svelte/transition';
   import { cubicIn } from 'svelte/easing';
   import { flip } from 'svelte/animate';
+  import { setContext } from 'svelte';
+
+  setContext('todo_user', {
+    name: 'Name',
+  });
 
   const [send, receive] = crossfade({
     duration: 500,
@@ -39,51 +45,59 @@
   }
 </script>
 
-<AddTodoItem on:add={handleAddClick} />
-
-{$todoStats.doneCount} / {$todoStats.totalCount}
-
-<div class="todos-container">
-  <div class="todo-items-container">
-    {#each $todoItems.filter((item) => !item.done) as { id, text, done }, index (id)}
-      <div
-        class="todo-item-container"
-        in:receive={{ key: id }}
-        out:send={{ key: id }}
-        animate:flip={{ duration: 250 }}
-      >
-        <TodoItem
-          title={`${index + 1}. ${text}`}
-          {done}
-          on:doneChange={(event) => handleDoneChange(id, event.detail)}
-          on:remove={() => handleRemove(id)}
-        />
-      </div>
-    {:else}
-      No items yet
-    {/each}
+<BaseLayout>
+  <div slot="header" let:greeting>
+    {greeting} and Welcome!
   </div>
-
-  <div class="todo-items-container">
-    {#each $todoItems.filter((item) => item.done) as { id, text, done }, index (id)}
-      <div
-        class="todo-item-container"
-        in:receive={{ key: id }}
-        out:send={{ key: id }}
-        animate:flip={{ duration: 250 }}
-      >
-        <TodoItem
-          title={`${index + 1}. ${text}`}
-          {done}
-          on:doneChange={(event) => handleDoneChange(id, event.detail)}
-          on:remove={() => handleRemove(id)}
-        />
-      </div>
-    {:else}
-      No items yet
-    {/each}
+  <div slot="footer">
+    <p class="footer-item">Some text for footer</p>
   </div>
-</div>
+  <AddTodoItem on:add={handleAddClick} />
+
+  {$todoStats.doneCount} / {$todoStats.totalCount}
+
+  <div class="todos-container">
+    <div class="todo-items-container">
+      {#each $todoItems.filter((item) => !item.done) as { id, text, done }, index (id)}
+        <div
+          class="todo-item-container"
+          in:receive={{ key: id }}
+          out:send={{ key: id }}
+          animate:flip={{ duration: 250 }}
+        >
+          <TodoItem
+            title={`${index + 1}. ${text}`}
+            {done}
+            on:doneChange={(event) => handleDoneChange(id, event.detail)}
+            on:remove={() => handleRemove(id)}
+          />
+        </div>
+      {:else}
+        No items yet
+      {/each}
+    </div>
+
+    <div class="todo-items-container">
+      {#each $todoItems.filter((item) => item.done) as { id, text, done }, index (id)}
+        <div
+          class="todo-item-container"
+          in:receive={{ key: id }}
+          out:send={{ key: id }}
+          animate:flip={{ duration: 250 }}
+        >
+          <TodoItem
+            title={`${index + 1}. ${text}`}
+            {done}
+            on:doneChange={(event) => handleDoneChange(id, event.detail)}
+            on:remove={() => handleRemove(id)}
+          />
+        </div>
+      {:else}
+        No items yet
+      {/each}
+    </div>
+  </div>
+</BaseLayout>
 
 <style>
   .todos-container {
@@ -98,5 +112,10 @@
     display: flex;
     flex-direction: column;
     row-gap: 8px;
+  }
+
+  .footer-item {
+    color: #b30000;
+    font-size: 28px;
   }
 </style>
