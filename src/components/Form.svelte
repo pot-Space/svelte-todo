@@ -7,8 +7,11 @@
 
   const dispatch = createEventDispatcher();
 
+  let clicked = false;
+
   let text = '';
   function handleAddClick() {
+    clicked = !clicked;
     dispatch('add', text);
   }
 </script>
@@ -16,7 +19,9 @@
 <div class="main-container">
   <label for="todo-text" in:typewriter>{title}</label>
   <input class="todo-input" id="todo-text" bind:value={text} />
-  <button on:click={handleAddClick}>{btnTitle}</button>
+  <button class:clicked-style={clicked} on:click={handleAddClick}
+    >{btnTitle}</button
+  >
 </div>
 
 <style>
@@ -37,5 +42,13 @@
 
   .todo-input {
     width: 100%;
+  }
+
+  button:active {
+    background-color: #97d5f1;
+  }
+  .clicked-style {
+    background-color: #30a4d9;
+    border-color: #186c93;
   }
 </style>
