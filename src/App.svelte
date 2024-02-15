@@ -2,6 +2,9 @@
   import AddTodoItem from './components/AddTodoItem.svelte';
   import TodoItem from './components/TodoItem.svelte';
   import BaseLayout from './layouts/BaseLayout.svelte';
+  import Dir from './components/Dir.svelte';
+  import { files } from './components/files';
+
   import { todoItems } from './store/customStore';
   import { todoStats } from './store/todoStats';
   import { crossfade } from 'svelte/transition';
@@ -43,7 +46,23 @@
   function handleRemove(id) {
     todoItems.remove(id);
   }
+
+  function handleKeydown(event) {
+    console.log(event.key, event.keyCode);
+  }
+
+  function handleEnter(event) {
+    console.log(event);
+  }
 </script>
+
+<svelte:window on:keydown={handleKeydown} />
+<svelte:body on:mouseenter={handleEnter} />
+<svelte:head>
+  <title>Home page</title>
+</svelte:head>
+
+<Dir name="root" {files} />
 
 <BaseLayout>
   <div slot="header" let:greeting>

@@ -55,10 +55,12 @@
     coord = { x: 0, y: 0 };
   }
 
-  let offset = 100;
+  // let offset = 100;
+  let offset = 0;
   onMount(() => {
     setInterval(() => {
-      offset += 10;
+      // offset += 10;
+      offset += 0;
     }, 1000);
   });
 </script>

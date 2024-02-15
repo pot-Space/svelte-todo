@@ -44,11 +44,16 @@
     width: 100%;
   }
 
+  button {
+    border-radius: 4px;
+    border: none;
+  }
+
   button:active {
     background-color: #97d5f1;
   }
   .clicked-style {
     background-color: #30a4d9;
-    border-color: #186c93;
+    box-shadow: inset 0px 2px 1px rgb(24 108 147);
   }
 </style>
