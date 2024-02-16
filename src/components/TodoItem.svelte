@@ -1,3 +1,5 @@
+<svelte:options immutable={true} accessors={true} />
+
 <script context="module">
   console.log('this is module');
 

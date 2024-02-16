@@ -3,6 +3,7 @@
   import TodoItem from './components/TodoItem.svelte';
   import BaseLayout from './layouts/BaseLayout.svelte';
   import Dir from './components/Dir.svelte';
+  import Tabs from './components/tabs/Tabs.svelte';
   import { files } from './components/files';
 
   import { todoItems } from './store/customStore';
@@ -63,6 +64,8 @@
 </svelte:head>
 
 <Dir name="root" {files} />
+
+<Tabs />
 
 <BaseLayout>
   <div slot="header" let:greeting>
